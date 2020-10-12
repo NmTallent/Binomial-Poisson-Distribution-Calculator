@@ -17,6 +17,8 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -109,8 +111,11 @@ public class GUI extends Calculation implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		binAnswer = BinomialCalculation(sampleSize, xVal, binProbability);
-		outcomeLabel1.setText(("Outcome: " + binAnswer*100 + "%"));
+		binAnswer = BinomialCalculation(sampleSize, xVal, binProbability) * 100; // convert to percentage
+		DecimalFormat df = new DecimalFormat("#.###"); // format to 3 decimal places
+		df.setRoundingMode(RoundingMode.CEILING); // round up
+		String roundedNum = df.format(binAnswer); // convert binAnswer to a string and format to 3 decimal places
+		outcomeLabel1.setText(("Outcome: " + roundedNum + "%")); // update outcomeLabel
 	}
 
 }
