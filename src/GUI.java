@@ -51,7 +51,7 @@ public class GUI {
 		frame.setLocationRelativeTo(null); // centers frame
 		frame.setVisible(true);
 		
-		
+		System.out.println("Nick can you see the difference");
 		
 	}
 	
