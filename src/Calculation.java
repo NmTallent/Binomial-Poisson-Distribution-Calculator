@@ -1,26 +1,27 @@
-import javax.swing.JTextField;
 
 public class Calculation {
-	
-	public double BinomialCalculation(JTextField sampleSize, JTextField xVal, JTextField probability) {
-		
-		int sampleSizeInt = Integer.parseInt(sampleSize.getText());
-		int xValInt = Integer.parseInt(xVal.getText());
-		double probabilityVal = Double.parseDouble(probability.getText());
-		
-		int numCombinations = combination(sampleSizeInt,xValInt);
-		
-		double outcomeProbability = numCombinations * 
-				(double)Math.pow(probabilityVal, xValInt) * Math.pow(1-probabilityVal, sampleSizeInt - xValInt);
-		
-		return outcomeProbability;
+
+	/*
+	 * This method takes the sample size, X value in question, and the probability.
+	 * Returns the result of the binomial distribution formula nCr * p^x * (1-p)^n-x
+	 */
+	public double BinomialCalculation(int sampleSize, int xVal, double probability) {
+
+		int numCombinations = combination(sampleSize, xVal);
+
+		double outcomeProbability = numCombinations * (double) Math.pow(probability, xVal)
+				* Math.pow(1 - probability, sampleSize - xVal);
+
+		return outcomeProbability * 100; // convert to percentage
 	}
-	
+
+	// This method calculates the number of possible combinations, otherwise known
+	// as nCr
 	public static int combination(int n, int r) {
-		if(r == 0 || n == r) {
+		if (r == 0 || n == r) {
 			return 1;
-		}else {
-			return combination(n-1,r) + combination(n-1,r-1);
+		} else {
+			return combination(n - 1, r) + combination(n - 1, r - 1);
 		}
 	}
 }

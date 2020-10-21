@@ -11,8 +11,6 @@
  * a Binomial Distribution or a Poisson Distribution.
  */
 
-
-
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -27,8 +25,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class GUI extends Calculation implements ActionListener{
-	
+public class GUI extends Calculation implements ActionListener {
+
 	private double binAnswer = 0;
 	private double poiAnswer = 0;
 
@@ -40,11 +38,12 @@ public class GUI extends Calculation implements ActionListener{
 	private JLabel probabilityLabel;
 	private JLabel outcomeLabel1;
 	private JLabel XLabel;
+	private JLabel errorLabel;
 	private JTextField sampleSize;
 	private JTextField binProbability;
 	private JTextField xVal;
 	private JButton calculateButton1;
-	
+
 	// GUI Constructor
 	public GUI() {
 		frame = new JFrame();
@@ -52,26 +51,27 @@ public class GUI extends Calculation implements ActionListener{
 		sampleSize = new JTextField("");
 		binProbability = new JTextField("");
 		xVal = new JTextField("");
-		
-		binLabel= new JLabel("Binomial Distribution");
+
+		binLabel = new JLabel("Binomial Distribution");
 		poiLabel = new JLabel("Poisson Distribution");
 		sampleSizeLabel = new JLabel("Sample size: ");
 		probabilityLabel = new JLabel("Probability: ");
-		
+		errorLabel = new JLabel("Input error: Sample size, X val = Integer, Probability = decimal format < 1.");
+
 		XLabel = new JLabel("X: ");
 		calculateButton1 = new JButton("Calculate");
 		calculateButton1.addActionListener(this);
-	
-		outcomeLabel1 = new JLabel("Outcome: " + binAnswer*100 + "%");
-		
+
+		outcomeLabel1 = new JLabel("Outcome: " + binAnswer * 100 + "%");
+
 		frame.add(panel, BorderLayout.CENTER);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.add(binLabel, BorderLayout.PAGE_START);
 		frame.add(poiLabel, BorderLayout.WEST);
-		
-		panel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+
+		panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		panel.setLayout(null);
-		panel.setPreferredSize(new Dimension(500,400));
+		panel.setPreferredSize(new Dimension(500, 400));
 		panel.add(sampleSize);
 		panel.add(binProbability);
 		panel.add(xVal);
@@ -79,43 +79,50 @@ public class GUI extends Calculation implements ActionListener{
 		panel.add(probabilityLabel);
 		panel.add(XLabel);
 		panel.add(outcomeLabel1);
+		panel.add(errorLabel);
+		errorLabel.setVisible(false);
 		panel.add(calculateButton1);
-		
-		sampleSize.setBounds(100,10,40,20);
-		binProbability.setBounds(100,40,40,20);
-		xVal.setBounds(100,70,40,20); 
+
+		sampleSize.setBounds(100, 10, 40, 20);
+		binProbability.setBounds(100, 40, 40, 20);
+		xVal.setBounds(100, 70, 40, 20);
 		sampleSizeLabel.setBounds(20, 10, 85, 18);
 		probabilityLabel.setBounds(28, 40, 85, 18);
 		XLabel.setBounds(81, 70, 85, 18);
-		outcomeLabel1.setBounds(300,40,130,18);
-		calculateButton1.setBounds(160,130,100,18);
-		
-		
+		outcomeLabel1.setBounds(300, 40, 130, 18);
+		calculateButton1.setBounds(160, 130, 100, 18);
+		errorLabel.setBounds(0, 150, 1000, 18);
+
 		frame.setTitle("Binomial and Poisson Distribution Calculator");
 		frame.pack();
 		frame.setLocationRelativeTo(null); // centers frame
 		frame.setVisible(true);
-		
-		
-		
 	}
-	
-	
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		new GUI();
 	}
 
-
-
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		binAnswer = BinomialCalculation(sampleSize, xVal, binProbability) * 100; // convert to percentage
-		DecimalFormat df = new DecimalFormat("#.###"); // format to 3 decimal places
-		df.setRoundingMode(RoundingMode.CEILING); // round up
-		String roundedNum = df.format(binAnswer); // convert binAnswer to a string and format to 3 decimal places
-		outcomeLabel1.setText(("Outcome: " + roundedNum + "%")); // update outcomeLabel
-	}
+		// try catch checks for input errors and displays error message if needed.
+		try {
+			errorLabel.setVisible(false); // reset error label
 
+			int sampleSizeInt = Integer.parseInt(sampleSize.getText());
+			int xValInt = Integer.parseInt(xVal.getText());
+			double probabilityVal = Double.parseDouble(binProbability.getText());
+			if (probabilityVal > 1) {
+				throw new IllegalArgumentException();
+			}
+			binAnswer = BinomialCalculation(sampleSizeInt, xValInt, probabilityVal);
+			DecimalFormat df = new DecimalFormat("#.###"); // format to 3 decimal places
+			df.setRoundingMode(RoundingMode.CEILING); // round up
+			String roundedNum = df.format(binAnswer); // convert binAnswer to a string and format to 3 decimal places
+			outcomeLabel1.setText(("Outcome: " + roundedNum + "%")); // update outcomeLabel
+		} catch (Exception error) {
+			errorLabel.setVisible(true); // display error label
+		}
+	}
 }
