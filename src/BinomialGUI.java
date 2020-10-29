@@ -25,7 +25,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class GUI extends Calculation implements ActionListener {
+public class BinomialGUI extends Calculation implements ActionListener {
 
 	private double binAnswer = 0;
 	private double poiAnswer = 0;
@@ -45,7 +45,7 @@ public class GUI extends Calculation implements ActionListener {
 	private JButton calculateButton1;
 
 	// GUI Constructor
-	public GUI() {
+	public BinomialGUI() {
 		frame = new JFrame();
 		panel = new JPanel();
 		sampleSize = new JTextField("");
@@ -53,7 +53,6 @@ public class GUI extends Calculation implements ActionListener {
 		xVal = new JTextField("");
 
 		binLabel = new JLabel("Binomial Distribution");
-		poiLabel = new JLabel("Poisson Distribution");
 		sampleSizeLabel = new JLabel("Sample size: ");
 		probabilityLabel = new JLabel("Probability: ");
 		errorLabel = new JLabel("Input error: Sample size, X val = Integer, Probability = decimal format < 1.");
@@ -65,13 +64,13 @@ public class GUI extends Calculation implements ActionListener {
 		outcomeLabel1 = new JLabel("Outcome: " + binAnswer * 100 + "%");
 
 		frame.add(panel, BorderLayout.CENTER);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
 		frame.add(binLabel, BorderLayout.PAGE_START);
-		frame.add(poiLabel, BorderLayout.WEST);
-
+		
+		
 		panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		panel.setLayout(null);
-		panel.setPreferredSize(new Dimension(500, 400));
+		panel.setPreferredSize(new Dimension(500, 200));
 		panel.add(sampleSize);
 		panel.add(binProbability);
 		panel.add(xVal);
@@ -90,18 +89,13 @@ public class GUI extends Calculation implements ActionListener {
 		probabilityLabel.setBounds(28, 40, 85, 18);
 		XLabel.setBounds(81, 70, 85, 18);
 		outcomeLabel1.setBounds(300, 40, 130, 18);
-		calculateButton1.setBounds(160, 130, 100, 18);
-		errorLabel.setBounds(0, 150, 1000, 18);
+		calculateButton1.setBounds(180, 130, 100, 18);
+		errorLabel.setBounds(35, 150, 1000, 18);
 
-		frame.setTitle("Binomial and Poisson Distribution Calculator");
+		frame.setTitle("Binomial Distribution Calculator");
 		frame.pack();
 		frame.setLocationRelativeTo(null); // centers frame
 		frame.setVisible(true);
-	}
-
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		new GUI();
 	}
 
 	@Override
@@ -113,7 +107,7 @@ public class GUI extends Calculation implements ActionListener {
 			int sampleSizeInt = Integer.parseInt(sampleSize.getText());
 			int xValInt = Integer.parseInt(xVal.getText());
 			double probabilityVal = Double.parseDouble(binProbability.getText());
-			if (probabilityVal > 1) {
+			if (probabilityVal < 0|| probabilityVal > 1 || sampleSizeInt < xValInt) {
 				throw new IllegalArgumentException();
 			}
 			binAnswer = BinomialCalculation(sampleSizeInt, xValInt, probabilityVal);
