@@ -14,9 +14,10 @@ public class Calculation {
 
 		return outcomeProbability * 100; // convert to percentage
 	}
-	
+
 	public double PoissonCalculation(int averageRateOfSuccess, int xVal) {
-		return (Math.pow(Math.E, -averageRateOfSuccess) * (Math.pow(averageRateOfSuccess, xVal)))/(double)factorial(xVal);
+		return (Math.pow(Math.E, -averageRateOfSuccess) * (Math.pow(averageRateOfSuccess, xVal)))
+				/ (double) factorial(xVal) * 100;
 	}
 
 	// This method calculates the number of possible combinations, otherwise known
@@ -28,12 +29,12 @@ public class Calculation {
 			return combination(n - 1, r) + combination(n - 1, r - 1);
 		}
 	}
-	
+
 	public static int factorial(int x) {
-		if(x == 1) {
+		if (x == 1) {
 			return 1;
-		}else {
-			return x * factorial(x-1);
+		} else {
+			return x * factorial(x - 1);
 		}
 	}
 }

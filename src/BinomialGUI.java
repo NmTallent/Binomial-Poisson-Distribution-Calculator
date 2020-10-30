@@ -1,15 +1,4 @@
-/*
- * @Author: Nick Tallent & Landon Leigh
- * @Version 1.0
- * 
- * Date: 10/10/2020
- * 
- *  ** WORK IN PROGRESS **
- *  
- * Description: This program calculates a Binomial distribution or Poisson distribution.
- * A GUI will appear when the program is executed and allow for the user to select to input data for
- * a Binomial Distribution or a Poisson Distribution.
- */
+
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -28,12 +17,9 @@ import javax.swing.JTextField;
 public class BinomialGUI extends Calculation implements ActionListener {
 
 	private double binAnswer = 0;
-	private double poiAnswer = 0;
-
 	private JFrame frame;
 	private JPanel panel;
 	private JLabel binLabel;
-	private JLabel poiLabel;
 	private JLabel sampleSizeLabel;
 	private JLabel probabilityLabel;
 	private JLabel outcomeLabel1;
@@ -64,10 +50,9 @@ public class BinomialGUI extends Calculation implements ActionListener {
 		outcomeLabel1 = new JLabel("Outcome: " + binAnswer * 100 + "%");
 
 		frame.add(panel, BorderLayout.CENTER);
-		
+
 		frame.add(binLabel, BorderLayout.PAGE_START);
-		
-		
+
 		panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		panel.setLayout(null);
 		panel.setPreferredSize(new Dimension(500, 200));
@@ -107,7 +92,7 @@ public class BinomialGUI extends Calculation implements ActionListener {
 			int sampleSizeInt = Integer.parseInt(sampleSize.getText());
 			int xValInt = Integer.parseInt(xVal.getText());
 			double probabilityVal = Double.parseDouble(binProbability.getText());
-			if (probabilityVal < 0|| probabilityVal > 1 || sampleSizeInt < xValInt) {
+			if (probabilityVal < 0 || probabilityVal > 1 || sampleSizeInt < xValInt) {
 				throw new IllegalArgumentException();
 			}
 			binAnswer = BinomialCalculation(sampleSizeInt, xValInt, probabilityVal);
